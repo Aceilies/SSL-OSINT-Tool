@@ -20,9 +20,10 @@ if (-not $url) {
 	
 	Write-Host "Enter a Domain and we will fetch all related Domains: "
     $url = Read-Host
+	$checker = "Done"
 }
 
-if (-not $type) {
+if (-not $type -and $checker) {
     $response = Read-Host "Do you want to save the output to a file? (Y/n) Default(Y)"
     if ($response -eq "Y" -or $response -eq "" -or $response -eq "y") {
         $response = Read-Host "Do you want to save as (json/txt)? Default(json)"
