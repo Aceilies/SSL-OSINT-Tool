@@ -15,14 +15,12 @@ The Linux tool is still under development and doesnt offer all the functionaliti
 
 ## Usage
 ### Powershell
->> Run the Script and Enjoy the Interactive Tool
->> Use it from the command line directly (-u) for URL, (--json) to save output in json file, (--txt) to save output in txt file.
+>> Run the Script and Enjoy the Interactive Tool or Use it from the command line directly (-u) for URL, (--json) to save output in json file, (--txt) to save output in txt file.
 ```
   .\crt.ps1 -u egypt-its.com --txt
 ```
 ### Shell 
->> Run the Script and Enjoy the Interactive Tool
->> Use it from the command line directly (-u) for URL.
+>> Run the Script and Enjoy the Interactive Tool or Use it from the command line directly (-u) for URL.
 ```
   bash ./crt.sh -u egypt-its.com
 ```
