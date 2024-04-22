@@ -17,12 +17,12 @@ The Linux tool is still under development and doesnt offer all the functionaliti
 ### Powershell
 >> Run the Script and Enjoy the Interactive Tool or Use it from the command line directly (-u) for URL, (--json) to save output in json file, (--txt) to save output in txt file.
 ```
-  .\SSL-OSINT-Tool.ps1 -u egypt-its.com --txt
+  .\SSL-OSINT-Tool.ps1 -u example.com --txt
 ```
 ### Shell 
 >> Run the Script and Enjoy the Interactive Tool or Use it from the command line directly (-u) for URL.
 ```
-  bash ./SSL-OSINT-Tool.sh -u egypt-its.com
+  bash ./SSL-OSINT-Tool.sh -u example.com
 ```
 
 ## Contributing
