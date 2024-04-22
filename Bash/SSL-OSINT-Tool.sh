@@ -55,4 +55,4 @@ echo "Checking $url at crt.sh"
 output=$(curl --location "https://crt.sh/?q=$url&output=json&exclude=expired" \
 --header 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/20100101 Firefox/101.0')
 
-echo "$output" | jq -r '.[].name' | column -t
+echo "$output" | jq -r '.[].common_name' | column -t
