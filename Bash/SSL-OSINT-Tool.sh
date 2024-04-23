@@ -1,14 +1,11 @@
 #!/bin/bash
 
 
-echo '  ____     __    ___  ____  _      ____    ___  _____
- /    |   /  ]  /  _]|    || |    |    |  /  _]/ ___/
-|  o  |  /  /  /  [_  |  | | |     |  |  /  [_(   \_ 
-|     | /  /  |    _] |  | | |___  |  | |    _]\__  |
-|  _  |/   \_ |   [_  |  | |     | |  | |   [_ /  \ |
-|  |  |\     ||     | |  | |     | |  | |     |\    |
-|__|__| \____||_____||____||_____||____||_____| \___|
-                                                     '
+echo "   ___|     ___|    |            _ \     ___|   _ _|    \  |  __ __|      __ __|                   | ";
+echo " \___ \   \___ \    |           |   |  \___ \     |      \ |     |           |      _ \     _ \    | ";
+echo "       |        |   |           |   |        |    |    |\  |     |           |     (   |   (   |   | ";
+echo " _____/   _____/   _____|      \___/   _____/   ___|  _| \_|    _|          _|    \___/   \___/   _| ";
+echo "  
 
 
 # Check if jq is installed
@@ -16,13 +13,15 @@ if ! command -v jq &> /dev/null
 then
   echo "jq not found, installing..."
   if [ -x "$(command -v apt-get)" ]; then
-    sudo apt-get install jq
+    sudo apt-get install jq # Debian/Ubuntu
   elif [ -x "$(command -v yum)" ]; then
-    sudo yum install jq
+    sudo yum install jq # CentOS/RHEL
   elif [ -x "$(command -v dnf)" ]; then
-    sudo dnf install jq
+    sudo dnf install jq # Fedora
+  elif [ -x "$(command -v brew)" ]; then
+    brew install jq # MacOS
   else
-    echo "jq not found and cannot be installed on this system"
+    echo "Error: jq is not found and cannot be installed on this system. Please manually install jq and rerun the script."
     exit 1
   fi
 fi
@@ -49,6 +48,22 @@ echo "You can use -u switch instead example ./script.sh -u example.com"
 if [ -z "$url" ]; then
   read -p "Enter url to check at crt.sh: " url
 fi
+
+echo "   ___|     ___|    |            _ \     ___|   _ _|    \  |  __ __|      __ __|                   | ";
+echo " \___ \   \___ \    |           |   |  \___ \     |      \ |     |           |      _ \     _ \    | ";
+echo "       |        |   |           |   |        |    |    |\  |     |           |     (   |   (   |   | ";
+echo " _____/   _____/   _____|      \___/   _____/   ___|  _| \_|    _|          _|    \___/   \___/   _| ";
+echo "  
+
+
+echo '  ____     __    ___  ____  _      ____    ___  _____
+ /    |   /  ]  /  _]|    || |    |    |  /  _]/ ___/
+|  o  |  /  /  /  [_  |  | | |     |  |  /  [_(   \_ 
+|     | /  /  |    _] |  | | |___  |  | |    _]\__  |
+|  _  |/   \_ |   [_  |  | |     | |  | |   [_ /  \ |
+|  |  |\     ||     | |  | |     | |  | |     |\    |
+|__|__| \____||_____||____||_____||____||_____| \___|
+                                                     '
 
 echo "Checking $url at crt.sh"
 
