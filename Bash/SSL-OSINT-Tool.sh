@@ -16,13 +16,15 @@ if ! command -v jq &> /dev/null
 then
   echo "jq not found, installing..."
   if [ -x "$(command -v apt-get)" ]; then
-    sudo apt-get install jq
+    sudo apt-get install jq # Debian/Ubuntu
   elif [ -x "$(command -v yum)" ]; then
-    sudo yum install jq
+    sudo yum install jq # CentOS/RHEL
   elif [ -x "$(command -v dnf)" ]; then
-    sudo dnf install jq
+    sudo dnf install jq # Fedora
+  elif [ -x "$(command -v brew)" ]; then
+    brew install jq # MacOS
   else
-    echo "jq not found and cannot be installed on this system"
+    echo "Error: jq is not found and cannot be installed on this system. Please manually install jq and rerun the script."
     exit 1
   fi
 fi
