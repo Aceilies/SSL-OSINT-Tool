@@ -1,11 +1,19 @@
 #!/bin/bash
 
-
 echo "   ___|     ___|    |            _ \     ___|   _ _|    \  |  __ __|      __ __|                   | ";
 echo " \___ \   \___ \    |           |   |  \___ \     |      \ |     |           |      _ \     _ \    | ";
 echo "       |        |   |           |   |        |    |    |\  |     |           |     (   |   (   |   | ";
 echo " _____/   _____/   _____|      \___/   _____/   ___|  _| \_|    _|          _|    \___/   \___/   _| ";
+echo '  ____     __    ___  ____  _      ____    ___  _____
+ /    |   /  ]  /  _]|    || |    |    |  /  _]/ ___/
+|  o  |  /  /  /  [_  |  | | |     |  |  /  [_(   \_ 
+|     | /  /  |    _] |  | | |___  |  | |    _]\__  |
+|  _  |/   \_ |   [_  |  | |     | |  | |   [_ /  \ |
+|  |  |\     ||     | |  | |     | |  | |     |\    |
+|__|__| \____||_____||____||_____||____||_____| \___|'
+echo ""
 
+duplicates="false"
 
 # Check if jq is installed
 if ! command -v jq &> /dev/null
@@ -26,46 +34,38 @@ then
 fi
 
 # Parse command line arguments
-while getopts ":u:" opt; do
+while getopts ":u:d:h:" opt; do
   case $opt in
     u)
       url="$OPTARG"
       ;;
-    \?)
-      echo "Invalid option: -$OPTARG" >&2
-      exit 1
+    d)
+      duplicates="$OPTARG"
       ;;
     :)
-      echo "Option -$OPTARG requires an argument." >&2
-      exit 1
+      echo "Usage: $0 [-u url] [-d duplicates]"
+      echo "Options:"
+      echo "  -u url        URL to check at crt.sh"
+      echo "  -d duplicates Show duplicated records (true/false)"
+      exit 0
       ;;
   esac
 done
-
-echo "You can use -u switch instead example ./script.sh -u example.com"
 
 if [ -z "$url" ]; then
   read -p "Enter url to check at crt.sh: " url
 fi
 
-echo "   ___|     ___|    |            _ \     ___|   _ _|    \  |  __ __|      __ __|                   | ";
-echo " \___ \   \___ \    |           |   |  \___ \     |      \ |     |           |      _ \     _ \    | ";
-echo "       |        |   |           |   |        |    |    |\  |     |           |     (   |   (   |   | ";
-echo " _____/   _____/   _____|      \___/   _____/   ___|  _| \_|    _|          _|    \___/   \___/   _| ";
-
-
-echo '  ____     __    ___  ____  _      ____    ___  _____
- /    |   /  ]  /  _]|    || |    |    |  /  _]/ ___/
-|  o  |  /  /  /  [_  |  | | |     |  |  /  [_(   \_ 
-|     | /  /  |    _] |  | | |___  |  | |    _]\__  |
-|  _  |/   \_ |   [_  |  | |     | |  | |   [_ /  \ |
-|  |  |\     ||     | |  | |     | |  | |     |\    |
-|__|__| \____||_____||____||_____||____||_____| \___|
-                                                     '
-
 echo "Checking $url at crt.sh"
+echo ""
 
-output=$(curl --location "https://crt.sh/?q=$url&output=json&exclude=expired" \
+output=$(curl --silent --location "https://crt.sh/?q=$url&output=json&exclude=expired" \
 --header 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/20100101 Firefox/101.0')
 
-echo "$output" | jq -r '.[].common_name' | column -t
+echo "common_name, issuer_ca_id, not_before, not_after" | tr ',' '\t' | column -t
+
+if [ "$duplicates" = "false" ]; then
+  echo $output | jq -r '.[] | [.common_name, .issuer_ca_id, .not_before, .not_after] | @tsv' | sort -u -k1,1 | column -t
+else
+  echo $output | jq -r '.[] | [.common_name, .issuer_ca_id, .not_before, .not_after] | @tsv' | column -t
+fi
